@@ -17,4 +17,5 @@ export interface WebhookResponse {
   success: boolean;
   message: string;
   timestamp: string;
+  receivedData?: any;
 }

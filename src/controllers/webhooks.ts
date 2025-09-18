@@ -11,7 +11,7 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
       order_id: notification.order_id,
       store_id: notification.store_id,
       timestamp: notification.timestamp,
-      event_type: notification.event_type
+      event_type: notification.event_type,
     });
 
     // TODO: Implement your business logic here
@@ -24,7 +24,8 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
     const response: WebhookResponse = {
       success: true,
       message: 'Order dispatched notification processed successfully',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      receivedData: notification,
     };
 
     res.status(200).json(response);
@@ -34,7 +35,8 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
     const response: WebhookResponse = {
       success: false,
       message: 'Failed to process dispatched order notification',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      receivedData: req.body,
     };
 
     res.status(500).json(response);
@@ -50,7 +52,7 @@ export const handleCancelledOrder = async (req: AuthenticatedRequest, res: Respo
       order_id: notification.order_id,
       store_id: notification.store_id,
       timestamp: notification.timestamp,
-      event_type: notification.event_type
+      event_type: notification.event_type,
     });
 
     // TODO: Implement your business logic here
@@ -63,7 +65,8 @@ export const handleCancelledOrder = async (req: AuthenticatedRequest, res: Respo
     const response: WebhookResponse = {
       success: true,
       message: 'Order cancelled notification processed successfully',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      receivedData: notification,
     };
 
     res.status(200).json(response);
@@ -73,7 +76,8 @@ export const handleCancelledOrder = async (req: AuthenticatedRequest, res: Respo
     const response: WebhookResponse = {
       success: false,
       message: 'Failed to process cancelled order notification',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      receivedData: notification,
     };
 
     res.status(500).json(response);
@@ -85,6 +89,6 @@ export const healthCheck = (req: Request, res: Response) => {
     status: 'healthy',
     service: 'glovo-webhook-service',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   });
 };
