@@ -1,0 +1,1 @@
+{"webhook_id":"test-webhook-123","order_id":"order-456","store_id":"store-789","timestamp":"2024-01-15T10:30:00Z","event_type":"order.dispatched","order_data":{"customer":{"name":"John Doe","phone":"+1234567890"},"items":[{"name":"Pizza Margherita","quantity":1,"price":12.99}],"total":12.99}}

@@ -6,11 +6,15 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export const verifyGlovoSignature = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const signature = req.headers['x-glovo-signature'] as string;
-  const sharedToken = process.env.GLOVO_SHARED_TOKEN;
+  const token = req.headers['x-glovo-token'] as string;
+  const expectedToken = process.env.GLOVO_SHARED_TOKEN;
 
-  if (!sharedToken) {
-    console.error('GLOVO_SHARED_TOKEN not configured');
+  console.log('🔐 [AUTH] Simple token verification');
+  console.log('🔐 [AUTH] Expected token:', expectedToken);
+  console.log('🔐 [AUTH] Provided token:', token);
+
+  if (!expectedToken) {
+    console.error('❌ [AUTH] GLOVO_SHARED_TOKEN not configured');
     return res.status(500).json({
       success: false,
       message: 'Server configuration error',
@@ -18,44 +22,25 @@ export const verifyGlovoSignature = (req: AuthenticatedRequest, res: Response, n
     });
   }
 
-  if (!signature) {
-    console.warn('Missing signature in webhook request');
+  if (!token) {
+    console.warn('❌ [AUTH] Missing token in webhook request');
     return res.status(401).json({
       success: false,
-      message: 'Missing signature',
+      message: 'Missing authentication token',
       timestamp: new Date().toISOString()
     });
   }
 
-  try {
-    const payload = JSON.stringify(req.body);
-    const expectedSignature = crypto
-      .createHmac('sha256', sharedToken)
-      .update(payload)
-      .digest('hex');
-
-    const providedSignature = signature.replace('sha256=', '');
-
-    if (!crypto.timingSafeEqual(
-      Buffer.from(expectedSignature, 'hex'),
-      Buffer.from(providedSignature, 'hex')
-    )) {
-      console.warn('Invalid signature in webhook request');
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid signature',
-        timestamp: new Date().toISOString()
-      });
-    }
-
-    req.isAuthenticated = true;
-    next();
-  } catch (error) {
-    console.error('Error verifying signature:', error);
+  if (token !== expectedToken) {
+    console.warn('❌ [AUTH] Invalid token in webhook request');
     return res.status(401).json({
       success: false,
-      message: 'Authentication failed',
+      message: 'Invalid authentication token',
       timestamp: new Date().toISOString()
     });
   }
+
+  console.log('✅ [AUTH] Token verification successful');
+  req.isAuthenticated = true;
+  next();
 };
