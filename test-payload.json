@@ -1,1 +1,67 @@
-{"webhook_id":"test-webhook-123","order_id":"order-456","store_id":"store-789","timestamp":"2024-01-15T10:30:00Z","event_type":"order.dispatched","order_data":{"customer":{"name":"John Doe","phone":"+1234567890"},"items":[{"name":"Pizza Margherita","quantity":1,"price":12.99}],"total":12.99}}
+{
+  "webhook_id": "wh_5f8c7e2a4b1d3c9e",
+  "order_id": "abc123def456",
+  "store_id": "str_789xyz123",
+  "timestamp": "2024-09-18T11:30:45.123Z",
+  "event_type": "order.dispatched",
+  "order_data": {
+    "order_id": "abc123def456",
+    "store_id": "str_789xyz123",
+    "order_time": "2024-09-18 11:15:30",
+    "estimated_pickup_time": "2024-09-18 11:25:30",
+    "utc_offset_minutes": "120",
+    "payment_method": "DELAYED",
+    "currency": "EUR",
+    "order_code": "GLV-ABC123",
+    "allergy_info": "No nuts, lactose intolerant",
+    "special_requirements": "Ring doorbell twice",
+    "estimated_total_price": 1549,
+    "delivery_fee": 295,
+    "minimum_basket_surcharge": null,
+    "customer_cash_payment_amount": null,
+    "courier": {
+      "id": "crr_987654321",
+      "name": "Maria Garcia",
+      "phone": "+34687654321"
+    },
+    "customer": {
+      "id": "cust_123456789",
+      "name": "John Doe",
+      "phone": "+34612345678",
+      "email": "john.doe@example.com"
+    },
+    "products": [
+      {
+        "id": "prd_pizza_margherita",
+        "name": "Pizza Margherita",
+        "quantity": 1,
+        "price": 1299,
+        "attributes": [
+          {
+            "name": "Size",
+            "value": "Medium"
+          }
+        ]
+      },
+      {
+        "id": "prd_coca_cola",
+        "name": "Coca Cola 330ml",
+        "quantity": 1,
+        "price": 250
+      }
+    ],
+    "delivery_address": null,
+    "bundled_orders": ["abc123def456"],
+    "pick_up_code": "123",
+    "is_picked_up_by_customer": false,
+    "cutlery_requested": true,
+    "partner_discounts_products": 0,
+    "glovo_discounts_products": 0,
+    "partner_discounted_products_total": 1549,
+    "discounted_products_total": 1549,
+    "total_customer_to_pay": null,
+    "loyalty_card": null,
+    "voucher_code": null,
+    "service_fee": 99
+  }
+}

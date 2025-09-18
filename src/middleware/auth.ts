@@ -9,7 +9,6 @@ export const verifyGlovoSignature = (req: AuthenticatedRequest, res: Response, n
   const token = req.headers['x-glovo-token'] as string;
   const expectedToken = process.env.GLOVO_SHARED_TOKEN;
 
-  console.log('🔐 [AUTH] Simple token verification');
   console.log('🔐 [AUTH] Expected token:', expectedToken);
   console.log('🔐 [AUTH] Provided token:', token);
 

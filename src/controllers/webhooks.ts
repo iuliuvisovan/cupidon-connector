@@ -10,14 +10,7 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
   try {
     const notification: GlovoOrderNotification = req.body;
 
-    console.log('📦 [SUCCESS] Parsed dispatched order notification:', {
-      webhook_id: notification.webhook_id,
-      order_id: notification.order_id,
-      store_id: notification.store_id,
-      timestamp: notification.timestamp,
-      event_type: notification.event_type,
-    });
-    console.log('📦 [SUCCESS] Complete notification data:', JSON.stringify(notification, null, 2));
+    console.log('📦 [SUCCESS] Complete notification data from Glovo:', JSON.stringify(notification, null, 2));
 
     // TODO: Implement your business logic here
     // Examples:
