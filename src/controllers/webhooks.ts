@@ -3,16 +3,21 @@ import { GlovoOrderNotification, WebhookResponse } from '../types/glovo';
 import { AuthenticatedRequest } from '../middleware/auth';
 
 export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Response) => {
+  console.log('🚀 [WEBHOOK] handleDispatchedOrder called');
+  console.log('🔍 [WEBHOOK] Raw request body received:', JSON.stringify(req.body, null, 2));
+  console.log('🔍 [WEBHOOK] Request headers:', JSON.stringify(req.headers, null, 2));
+
   try {
     const notification: GlovoOrderNotification = req.body;
 
-    console.log('📦 Received dispatched order notification:', {
+    console.log('📦 [SUCCESS] Parsed dispatched order notification:', {
       webhook_id: notification.webhook_id,
       order_id: notification.order_id,
       store_id: notification.store_id,
       timestamp: notification.timestamp,
       event_type: notification.event_type,
     });
+    console.log('📦 [SUCCESS] Complete notification data:', JSON.stringify(notification, null, 2));
 
     // TODO: Implement your business logic here
     // Examples:
@@ -28,9 +33,11 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
       receivedData: notification,
     };
 
+    console.log('✅ [RESPONSE] Sending success response:', JSON.stringify(response, null, 2));
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error processing dispatched order:', error);
+    console.error('❌ [ERROR] Error processing dispatched order:', error);
+    console.error('❌ [ERROR] Raw request body that caused error:', JSON.stringify(req.body, null, 2));
 
     const response: WebhookResponse = {
       success: false,
@@ -39,21 +46,27 @@ export const handleDispatchedOrder = async (req: AuthenticatedRequest, res: Resp
       receivedData: req.body,
     };
 
+    console.log('❌ [RESPONSE] Sending error response:', JSON.stringify(response, null, 2));
     res.status(500).json(response);
   }
 };
 
 export const handleCancelledOrder = async (req: AuthenticatedRequest, res: Response) => {
+  console.log('🚀 [WEBHOOK] handleCancelledOrder called');
+  console.log('🔍 [WEBHOOK] Raw request body received:', JSON.stringify(req.body, null, 2));
+  console.log('🔍 [WEBHOOK] Request headers:', JSON.stringify(req.headers, null, 2));
+
   try {
     const notification: GlovoOrderNotification = req.body;
 
-    console.log('❌ Received cancelled order notification:', {
+    console.log('❌ [SUCCESS] Parsed cancelled order notification:', {
       webhook_id: notification.webhook_id,
       order_id: notification.order_id,
       store_id: notification.store_id,
       timestamp: notification.timestamp,
       event_type: notification.event_type,
     });
+    console.log('❌ [SUCCESS] Complete notification data:', JSON.stringify(notification, null, 2));
 
     // TODO: Implement your business logic here
     // Examples:
@@ -69,17 +82,20 @@ export const handleCancelledOrder = async (req: AuthenticatedRequest, res: Respo
       receivedData: notification,
     };
 
+    console.log('✅ [RESPONSE] Sending success response:', JSON.stringify(response, null, 2));
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error processing cancelled order:', error);
+    console.error('❌ [ERROR] Error processing cancelled order:', error);
+    console.error('❌ [ERROR] Raw request body that caused error:', JSON.stringify(req.body, null, 2));
 
     const response: WebhookResponse = {
       success: false,
       message: 'Failed to process cancelled order notification',
       timestamp: new Date().toISOString(),
-      receivedData: notification,
+      receivedData: req.body,
     };
 
+    console.log('❌ [RESPONSE] Sending error response:', JSON.stringify(response, null, 2));
     res.status(500).json(response);
   }
 };
